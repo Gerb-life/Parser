@@ -59,7 +59,7 @@ int expr(char *token){
  * The function for the non-terminal <ttail> that is the
  * the rest of an arithmetic expression after the initial
  * term. So it expects an addition or subtraction operator
- * first or the empty string. 
+ * first or the empty string.
  * @param token: the line being read
  * @param subtotal: the number we have evaluated up to this
  *                  point
@@ -114,10 +114,10 @@ int ttail(char *token, int subtotal){
 
 /**
  * <term> ::=  <stmt> <stail>
- * 
- * @brief 
- * @param token 
- * @return int 
+ *
+ * @brief
+ * @param token
+ * @return int
  */
 int term(char* token){
    int subtotal = stmt(token);
@@ -129,9 +129,9 @@ int term(char* token){
 
 /**
  * <stail> ::=  <mult_div_tok> <stmt> <stail> | e
- * @brief 
- * 
- * @return int 
+ * @brief
+ *
+ * @return int
  */
 int stail(char* token, int subtotal){
    int term_value;
@@ -183,9 +183,9 @@ int stail(char* token, int subtotal){
 
 /**
  * <stmt> ::=  <factor> <ftail>
- * @brief 
- * 
- * @return int 
+ * @brief
+ *
+ * @return int
  */
 int stmt(char* token){
  int subtotal = factor(token);
@@ -194,20 +194,103 @@ int stmt(char* token){
 
 /**
  * <ftail> ::=  <compare_tok> <factor> <ftail> | e
- * @brief 
- * 
- * @return int 
+ * @brief
+ *
+ * @return int
  */
 int ftail(char* token, int subtotal){
-   return subtotal;
+        int term_value;
+
+        if(!strncmp(token , "<",1)){
+                compare_tok(token);
+                //move cursor up
+                token = move_cursor(FORWARDS);
+                term_value = term(token);
+
+                //if term returned an error , give up otherwise call ftail.
+                if(term_value == ERROR){
+                        return term_value;
+
+                }
+                else{
+                        token = move_cursor(FORWARDS);
+                        return ftail(token , (subtotal < term_value));
+                }
+        }
+
+        else if(!strncmp(token , ">" , 1)){
+                compare_tok(token);
+                // move cursor up
+
+                token = move_cursor(FORWARDS);
+                term_value = term(token);
+
+                if(term_value == ERROR){
+                        return term_value;
+                }
+                //if term returned an error , give up otherwise call ftail
+                else{
+                        token = move_cursor(FORWARDS);
+                        return ftail(token, (subtotal > term_value));
+                }
+        }
+
+        else if(!strncmp(token , "<=" , 1)){
+                compare_tok(token);
+                // move cursor up
+
+                token = move_cursor(FORWARDS);
+                term_value = term(token);
+
+                if(term_value == ERROR){
+                        return term_value;
+                }
+                //if term returned an error , give up otherwise call ftail
+                else{
+                        token = move_cursor(FORWARDS);
+                        return ftail(token , (subtotal <= term_value));
+
+                }
+
+        }
+        else if(!strncmp(token , ">=" , 1)){
+                compare_tok(token);
+                // move cursor up
+
+                token = move_cursor(FORWARDS);
+                term_value = term(token);
+                //if term returned an error , give up otherwise call ftail
+                if(term_value == ERROR){
+                        return term_value;
+                }
+
+                else{
+                        token = move_cursor(FORWARDS);
+                        return ftail(token , (subtotal >= term_value));
+                }
+        }
+        else if (running == TRUE){
+                running = FALSE;
+                // move cursor up
+
+                token = move_cursor(FORWARDS);
+                subtotal = ftail(token , subtotal);
+                running = TRUE;
+                token = move_cursor(BACKWARDS);
+                return subtotal;
+        }
+
+        else{
+                return subtotal;
+        }
 }
 
 /**
  * <factor> ::=  <expp> ^ <factor> | <expp>
- * @brief 
- * 
- * @param token 
- * @return int 
+ * @brief
+ *
+ * @param token
+ * @return int
  */
 int factor(char* token){
    if (!strncmp(token, "^", 1)){
@@ -219,9 +302,9 @@ int factor(char* token){
 
 /**
  * <expp> ::=  ( <expr> ) | <num>
- * @brief 
- * 
- * @return int 
+ * @brief
+ *
+ * @return int
  */
 int expp(char* token){
 
@@ -234,43 +317,49 @@ int expp(char* token){
 
 /**
  * <add_sub_tok> ::=  + | -
- * @brief 
- * 
+ * @brief
+ *
  */
 void add_sub_tok(char* token){
    char* toks = "+-";
    if(strchr(toks, token) != NULL){
-      //do something 
+      //do something
    }
 }
 
 /**
  * <mul_div_tok> ::=  * | /
- * @brief 
- * 
- * @param token 
+ * @brief
+ *
+ * @param token
  */
 void mul_div_tok(char* token){
-
+        char* toks = "*/";
+        if(strchr(toks , token) != NULL){
+                //do something
+        }
 }
 
 /**
- * <compare_tok> ::=  < | > | <= | >= | != | == 
- * @brief 
+ * <compare_tok> ::=  < | > | <= | >= | != | ==
+ * @brief
  *
- * 
- * @param token 
+ *
+ * @param token
  */
 void compare_tok(char* token){
-
+        char* toks = "<>!=";
+        if(strchr(toks , token) != NULL){
+                //do something
+        }
 }
 
 /**
  * <num> ::=  {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}+
- * @brief 
- * 
- * @param number 
- * @return int 
+ * @brief
+ *
+ * @param number
+ * @return int
  */
 int num(char* number){
    int num = 0;
@@ -282,13 +371,13 @@ int num(char* number){
    return num;
 }
 
-///FOR TESTING PURPOSES/////////////////////////// 
+///FOR TESTING PURPOSES///////////////////////////
 int main(int argc, char* argv[]){
    char input_line[100];
    char *skipable = "\n\t\r";
    int running = TRUE;
 
-   FILE *in_file = fopen("/Users/josiahcherbony/Documents/VS Code Workspace/CS 352 Project 3/unix_input copy.txt", "r");//Directs the first argument to fopen
+   FILE *in_file = fopen("unix_input.txt", "r");//Directs the first argument to fopen
 
    while (fgets(input_line, 100, in_file) != NULL){
       line = input_line;  // Sets a global pointer to the memory location
@@ -314,7 +403,7 @@ char* move_cursor(int movement){
       else{
          line--;
       }
-      
+
    }
    return get_token(*line);
 }

@@ -1,5 +1,6 @@
 #ifndef PARSER_H
    #define PARSER_H
+   #endif
 /*
  * Author:  William Kreahling and Mark Holliday
  * Purpose: Function Prototypes for parser.c
@@ -21,5 +22,11 @@ void compare_tok(char *);
 void expon_tok(char *); // helper function
 int num(char *);
 int is_number(char *);  // helper function
+char* move_cursor(int);
+void remove_whitespace();
 
-#endif
+#define ERROR -99999
+#define FORWARDS 1
+#define BACKWARDS 0
+#define TRUE 1
+#define FALSE 0

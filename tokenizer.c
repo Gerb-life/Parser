@@ -117,16 +117,17 @@ void parse_file(FILE* in_file, char input_line[]){
  * @return char_holder. A holder for out token 
  */
 char* get_token(char token){
+  char *skipable = "\n\t\r ";
   char* char_holder = malloc(TSIZE);
   int char_counter = 0;
 
   char_holder[char_counter] = token;
-  line++;
+  line++;//UPDATED
   char_counter++;
 
   //If the character is a digit, it could be a multidigit number, so we check to
   //see if the next lexeme is also a number.
-  if(isdigit(token)){
+  if(isdigit(*line) && isdigit(*char_holder)){
     while(isdigit(*line) == TRUE){
       char_holder[char_counter] = *line;
       line++;
@@ -135,11 +136,14 @@ char* get_token(char token){
   //If the character is a lexeme that COULD be a lexeme made up of 2 characters,
   //we check to see if adding the next character in the line produces that type
   //of lexeme. 
-  else if(strchr(two_char_lexeme, *line) != NULL){
+  else if(strchr(two_char_lexeme, *char_holder) != NULL && strchr(two_char_lexeme, *line) != NULL){
     char_holder[char_counter] = *line;
     line++;
   }
-  line--;
+  while(strchr(skipable, *line) != NULL){
+    line++;
+  }
+  
   return char_holder;
 }
 

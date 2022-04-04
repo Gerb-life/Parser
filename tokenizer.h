@@ -28,5 +28,3 @@ char* make_new_statement(int count);
 char* error_maker(char* token);
 void parse_file(FILE* in_file, char input_line[]);
 void two_char_lexeme_builder(char*, int); 
-
-

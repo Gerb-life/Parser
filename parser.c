@@ -314,6 +314,30 @@ int factor(char* token){
      return subtotal;
   }
 }
+<<<<<<< HEAD
+=======
+/**
+///FOR TESTING PURPOSES///////////////////////////
+int main(int argc, char* argv[]){
+  char input_line[100];
+  char *skipable = "\n\t\r";
+  int running = TRUE;
+ 
+  FILE *in_file = fopen("unix_input.txt", "r");//Directs the first argument to fopen
+ 
+   while (fgets(input_line, 100, in_file) != NULL){
+
+      line = input_line;  // Sets a global pointer to the memory location
+                         // where the input line resides
+
+         int num = expr(line);
+         printf("%s" , input_line);
+         printf("%d\n", num);
+   }
+}
+*/
+
+>>>>>>> 22cfca9b3288d6716b17cdbb4dacbbf0613bff7b
  
 /**
 * <mul_div_tok> ::=  * | /

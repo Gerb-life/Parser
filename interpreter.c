@@ -25,6 +25,7 @@ int main(int argc , char* argv[]){
     }
 
      while (fgets(input_line, 100, in_file) != NULL){
+<<<<<<< HEAD
             line = input_line;
             if(strlen(line) != 1){
 
@@ -44,6 +45,25 @@ int main(int argc , char* argv[]){
             else{
                 fprintf(out_file , "Syntax is ok\n");
                 fprintf(out_file , "Value is: %d\n\n" , num);
+=======
+
+       
+            line = input_line;
+
+            if(strlen(line) != 1){
+
+            
+        
+            int num = expr(line);
+        
+            fprintf(out_file , "%s" , input_line);
+        if(num == ERROR){
+            fprintf(out_file , "Lexical Error not a lexeme:\n\n ");
+             }
+        else{
+             fprintf(out_file , "Syntax is ok\n");
+             fprintf(out_file , "Value is: %d\n\n" , num);
+>>>>>>> 22cfca9b3288d6716b17cdbb4dacbbf0613bff7b
              }
 
             }

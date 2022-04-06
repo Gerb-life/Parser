@@ -328,8 +328,7 @@ int factor(char* token){
      return subtotal;
   }
 }
-
-
+/**
 ///FOR TESTING PURPOSES///////////////////////////
 int main(int argc, char* argv[]){
   char input_line[100];
@@ -344,9 +343,11 @@ int main(int argc, char* argv[]){
                          // where the input line resides
 
          int num = expr(line);
+         printf("%s" , input_line);
          printf("%d\n", num);
    }
 }
+*/
 
  
 /**

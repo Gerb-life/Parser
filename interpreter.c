@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include "parser.h"
 #include "tokenizer.h"
 #include <stdlib.h>
@@ -21,10 +24,17 @@ int main(int argc , char* argv[]){
 
      while (fgets(input_line, 100, in_file) != NULL){
         line = input_line;
+        if(!strncmp(line, skipable, 1)){
+            int num = expr(line);
+            fprintf(out_file , "%s" , input_line);
+             if(num == ERROR){
+                 fprintf(out_file , "Lexical Error not a lexeme:\n ");
+             }
+            else{
+                 fprintf(out_file , "%d" , num);
+             }
 
-        int num = expr(line);
-        fprintf(out_file , "%d\n" , num);
-
+        }
 
      }
 

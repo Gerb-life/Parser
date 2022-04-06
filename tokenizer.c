@@ -17,7 +17,7 @@
 // global variables
 
 /**Global pointer to line of input*/
-extern char *line;
+char *line;
 
 /** The file that will hold our output*/
 FILE  *out_file;
@@ -117,7 +117,7 @@ void parse_file(FILE* in_file, char input_line[]){
  * @return char_holder. A holder for out token 
  */
 char* get_token(char token){
-  char *skipable = "\n\t\r ";
+  char *skipable = "\t\r ";
   char* char_holder = malloc(TSIZE);
   int char_counter = 0;
 
@@ -137,8 +137,15 @@ char* get_token(char token){
   //we check to see if adding the next character in the line produces that type
   //of lexeme. 
   else if(strchr(two_char_lexeme, *char_holder) != NULL && strchr(two_char_lexeme, *line) != NULL){
-    char_holder[char_counter] = *line;
+    char_holder[char_counter++] = *line;
     line++;
+  }
+  //If the next character makes up a word. 
+  else if(isalpha(*line) && isalpha(*char_holder)){
+    while(isalpha(*line) == TRUE){
+      char_holder[char_counter++] = *line;
+      line++;
+    }
   }
   while(strchr(skipable, *line) != NULL){
     line++;
@@ -309,4 +316,3 @@ char* statement_maker(int token_count, char* lexeme){
 
   return statement;
 }
-

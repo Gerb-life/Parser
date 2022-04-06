@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include "parser.h"
 #include "tokenizer.h"
 #include <stdlib.h>
 
 extern char* line;
+extern char* error_message;
+
 int main(int argc , char* argv[]){
     char input_line [100];
     char *skipable = "\n\t\r";
@@ -20,13 +25,32 @@ int main(int argc , char* argv[]){
     }
 
      while (fgets(input_line, 100, in_file) != NULL){
-        line = input_line;
+            line = input_line;
+            if(strlen(line) != 1){
 
-        int num = expr(line);
-        fprintf(out_file , "%d\n" , num);
+            int num = expr(line);
+        
+            fprintf(out_file , "%s" , input_line);
+            if(num == ERROR){
+                //fprintf(out_file , "Lexical Error not a lexeme:\n\n ");
+                fprintf(out_file, "%s\n", error_message);
+                error_message = "";
+                /**
+                if(strstr(error_message, "Lexical") != NULL){
+                    free(error_message);
+                }
+                */
+            }
+            else{
+                fprintf(out_file , "Syntax is ok\n");
+                fprintf(out_file , "Value is: %d\n\n" , num);
+             }
 
+            }
 
      }
-
-
 }
+
+//gcc -c interpreter.c -g 
+//gcc parser.c interpreter.o -g 
+//./a.out unix_input.txt 101.txt

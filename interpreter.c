@@ -23,18 +23,26 @@ int main(int argc , char* argv[]){
     }
 
      while (fgets(input_line, 100, in_file) != NULL){
-        line = input_line;
-        if(!strncmp(line, skipable, 1)){
+
+       
+            line = input_line;
+
+            if(strlen(line) != 1){
+
+            
+        
             int num = expr(line);
+        
             fprintf(out_file , "%s" , input_line);
-             if(num == ERROR){
-                 fprintf(out_file , "Lexical Error not a lexeme:\n ");
+        if(num == ERROR){
+            fprintf(out_file , "Lexical Error not a lexeme:\n\n ");
              }
-            else{
-                 fprintf(out_file , "%d" , num);
+        else{
+             fprintf(out_file , "Syntax is ok\n");
+             fprintf(out_file , "Value is: %d\n\n" , num);
              }
 
-        }
+            }
 
      }
 

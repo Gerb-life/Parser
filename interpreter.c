@@ -26,6 +26,7 @@ int main(int argc , char* argv[]){
  
     while (fgets(input_line, 100, in_file) != NULL){
            line = input_line;
+           error_message = malloc(TSIZE);
            if(strlen(line) != 1){
  
            int num = expr(line);
@@ -47,8 +48,9 @@ int main(int argc , char* argv[]){
             }
  
            }
- 
+    
     }
+    free(error_message);
 }
  
 //gcc -c interpreter.c -g

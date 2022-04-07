@@ -307,7 +307,7 @@ if(isdigit(*line) == TRUE){
    strcat(message, "===> ");
    strcat(message, token);
    strcat(message, "\nLexical Error: not a lexeme\n");
-   error_message = malloc(TSIZE);
+   //error_message = malloc(TSIZE);
    error_message = message;
    free(message);
 }

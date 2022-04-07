@@ -12,10 +12,8 @@
 #include <math.h>
 //#include "tokenizer.h"
 #include "parser.h"
- 
 //////TAKE THIS OUT LATER
 #include "tokenizer.c"
- 
 /*
 * <bexpr> ::= <expr> ;
 * <expr> ::=  <term> <ttail>
@@ -31,10 +29,8 @@
 * <compare_tok> ::=  < | > | <= | >= | != | ==
 * <num> ::=  {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}+
 */
- 
 //char *line;
 char* error_message = "";
- 
 /**
 * <expr> -> <term> <ttail>
 * The function for the non-terminal <expr> that views
@@ -44,21 +40,19 @@ char* error_message = "";
 * @return: the number of the evaluated expression or an error
 */
 int expr(){
- int total;
- int subtotal = term();
- if (subtotal == ERROR){
-    total = ERROR;
- }else{
-    total = ttail(subtotal);
-    if(strlen(line) == 1 && strcmp(error_message, "") == 0){
-       error_message = "===> ';' expected\n";
-       total = ERROR;
-    }
- }
- return total;
+int total;
+int subtotal = term();
+if (subtotal == ERROR){
+   total = ERROR;
+}else{
+   total = ttail(subtotal);
+   if(strlen(line) == 1 && strcmp(error_message, "") == 0){
+      error_message = "===> ';' expected\n";
+      total = ERROR;
+   }
 }
- 
- 
+return total;
+}
 /**
 * <ttail> -> <add_sub_tok> <term> <ttail> | e
 * The function for the non-terminal <ttail> that is the
@@ -72,38 +66,34 @@ int expr(){
 */
 int ttail(int subtotal)
 {
-  int term_value;
- 
-  if (!strncmp(line, "+", 1))
-  {
-     //Gets the "+" token
-     get_token(*line);
-     term_value = term();
- 
-     // if term returned an error, give up otherwise call ttail
-     if (term_value == ERROR)
-        return term_value;
-     else
-        //token = get_token(*line);
-        return ttail((subtotal + term_value));
-  }
-  else if(!strncmp(line, "-", 1))
-  {
-     //Gets the "-" token
-     get_token(*line);
-     term_value = term();
- 
-     // if term returned an error, give up otherwise call ttail
-     if (term_value == ERROR)
-        return term_value;
-     else
-        return ttail((subtotal - term_value));
-  }
-  /* empty string */
-  else
-     return subtotal;
+ int term_value;
+ if (!strncmp(line, "+", 1))
+ {
+    //Gets the "+" token
+    get_token(*line);
+    term_value = term();
+    // if term returned an error, give up otherwise call ttail
+    if (term_value == ERROR)
+       return term_value;
+    else
+       //token = get_token(*line);
+       return ttail((subtotal + term_value));
+ }
+ else if(!strncmp(line, "-", 1))
+ {
+    //Gets the "-" token
+    get_token(*line);
+    term_value = term();
+    // if term returned an error, give up otherwise call ttail
+    if (term_value == ERROR)
+       return term_value;
+    else
+       return ttail((subtotal - term_value));
+ }
+ /* empty string */
+ else
+    return subtotal;
 }
- 
 /**
 * <ftail> ::=  <compare_tok> <factor> <ftail> | e
 * @brief
@@ -111,73 +101,71 @@ int ttail(int subtotal)
 * @return int
 */
 int ftail(int subtotal){
-      int term_value;
-      if(!strncmp(line , "<",1)){
-         //Gets the "<" token
-         get_token(*line);
-         term_value = factor();
-         //if term returned an error , give up otherwise call ftail.
-         if(term_value == ERROR){
-            return term_value;
-         }
-         else{
-            return ftail((subtotal < term_value));
-         }
-      }
-      else if(!strncmp(line , ">" , 1)){
-         //Gets the ">" token
-         get_token(*line);
-         term_value = factor();
-         if(term_value == ERROR){
-            return term_value;
-         }
-         //if term returned an error , give up otherwise call ftail
-         else{
-            return ftail((subtotal > term_value));
-         }
-      }
-      else if(!strncmp(line , "<=" , 1)){
-         //Gets the "<" token
-         get_token(*line);
-         term_value = factor();
-         if(term_value == ERROR){
-            return term_value;
-         }
-         //if term returned an error , give up otherwise call ftail
-         else{
-            //token = move_cursor(FORWARDS, TRUE);
-            return ftail((subtotal <= term_value));
-         }
-      }
-      else if(!strncmp(line , ">=" , 1)){
-         //Gets the ">=" token
-         get_token(*line);
-         term_value = factor(line);
- 
-         if(term_value == ERROR){
-            return term_value;
-         }
-         else{
-            return ftail((subtotal >= term_value));
-         }
-      }
-      else if(!strncmp(line , "==" , 1)){
-         //Gets the "==" token
-         get_token(*line);
-         term_value = factor();
-         //if term returned an error , give up otherwise call ftail
-         if(term_value == ERROR){
-            return term_value;
-         }
-         else{
-            return ftail((subtotal == term_value));
-         }
-      }
-      else{
-         return subtotal;
-      }
+     int term_value;
+     if(!strncmp(line , "<",1)){
+        //Gets the "<" token
+        get_token(*line);
+        term_value = factor();
+        //if term returned an error , give up otherwise call ftail.
+        if(term_value == ERROR){
+           return term_value;
+        }
+        else{
+           return ftail((subtotal < term_value));
+        }
+     }
+     else if(!strncmp(line , ">" , 1)){
+        //Gets the ">" token
+        get_token(*line);
+        term_value = factor();
+        if(term_value == ERROR){
+           return term_value;
+        }
+        //if term returned an error , give up otherwise call ftail
+        else{
+           return ftail((subtotal > term_value));
+        }
+     }
+     else if(!strncmp(line , "<=" , 1)){
+        //Gets the "<" token
+        get_token(*line);
+        term_value = factor();
+        if(term_value == ERROR){
+           return term_value;
+        }
+        //if term returned an error , give up otherwise call ftail
+        else{
+           //token = move_cursor(FORWARDS, TRUE);
+           return ftail((subtotal <= term_value));
+        }
+     }
+     else if(!strncmp(line , ">=" , 1)){
+        //Gets the ">=" token
+        get_token(*line);
+        term_value = factor(line);
+        if(term_value == ERROR){
+           return term_value;
+        }
+        else{
+           return ftail((subtotal >= term_value));
+        }
+     }
+     else if(!strncmp(line , "==" , 1)){
+        //Gets the "==" token
+        get_token(*line);
+        term_value = factor();
+        //if term returned an error , give up otherwise call ftail
+        if(term_value == ERROR){
+           return term_value;
+        }
+        else{
+           return ftail((subtotal == term_value));
+        }
+     }
+     else{
+        return subtotal;
+     }
 }
- 
 /**
 * <stail> ::=  <mult_div_tok> <stmt> <stail> | e
 * @brief
@@ -185,33 +173,33 @@ int ftail(int subtotal){
 * @return int
 */
 int stail(int subtotal){
- int term_value;
- if (!strncmp(line, "/", 1))
- {
-   //Gets the "/" token
-   get_token(*line);
-   term_value = term();
-   // if term returned an error, give up otherwise call ttail
-   if (term_value == ERROR)
-      return term_value;
-   else
-      return stail((subtotal / term_value));
- }
- else if(!strncmp(line, "*", 1))
- {
-   //Gets the "*" token
-   get_token(*line);
-   term_value = term(line);
-   // if term returned an error, give up otherwise call ttail
-   if (term_value == ERROR)
-      return term_value;
-   else
-      return stail((subtotal * term_value));
- }
- else
-      return subtotal;
+int term_value;
+if (!strncmp(line, "/", 1))
+{
+  //Gets the "/" token
+  get_token(*line);
+  term_value = term();
+  // if term returned an error, give up otherwise call ttail
+  if (term_value == ERROR)
+     return term_value;
+  else
+     return stail((subtotal / term_value));
 }
-
+else if(!strncmp(line, "*", 1))
+{
+  //Gets the "*" token
+  get_token(*line);
+  term_value = term(line);
+  // if term returned an error, give up otherwise call ttail
+  if (term_value == ERROR)
+     return term_value;
+  else
+     return stail((subtotal * term_value));
+}
+else
+     return subtotal;
+}
+ 
 /**
 * <term> ::=  <stmt> <stail>
 *
@@ -220,13 +208,12 @@ int stail(int subtotal){
 * @return int
 */
 int term(){
- int subtotal = stmt();
- if (subtotal == ERROR)
-    return subtotal;
- else
-    return stail(subtotal);
+int subtotal = stmt();
+if (subtotal == ERROR)
+   return subtotal;
+else
+   return stail(subtotal);
 }
- 
 /**
 * <expp> ::=  ( <expr> ) | <num>
 * @brief Checks to see if the cursor is pointing to a "(" character. If it is,
@@ -238,34 +225,32 @@ int term(){
 int expp(){
 int subtotal;
 if (!strncmp(line, "(", 1)){
-    get_token(*line);
-    subtotal = expr();
-    char* token = get_token(*line);
-    if(strcmp(")", token) != 0){
-       error_message = "===> ')' expected\nSyntax error\n";
-       subtotal = ERROR;
-    }
+   get_token(*line);
+   subtotal = expr();
+   char* token = get_token(*line);
+   if(strcmp(")", token) != 0){
+      error_message = "===> ')' expected\nSyntax error\n";
+      subtotal = ERROR;
+   }
 }else{
-   subtotal = num();
+  subtotal = num();
 }
 return subtotal;
 }
- 
 /**
 * <stmt> ::=  <factor> <ftail>
 * @brief Sends the character the cursor's point to to factor. If the return
 * value is not an error, we send that subtotal to ftail.
 * @return subtotal. Either an error of the value of subtotal modified by ftail.
-*/ 
+*/
 int stmt(){
-   int subtotal = factor(line);
-   if(subtotal == ERROR){
-      return subtotal;
-   }else{
-      return ftail(subtotal);
-   }
+  int subtotal = factor(line);
+  if(subtotal == ERROR){
+     return subtotal;
+  }else{
+     return ftail(subtotal);
+  }
 }
- 
 /**
 * <factor> ::=  <expp> ^ <factor> | <expp>
 * @brief Checks to see if the cursor is pointing to a "^" character. If it is,
@@ -274,17 +259,17 @@ int stmt(){
 * @return num
 */
 int factor(){
-   int subtotal = expp();
-    if (!strncmp(line, "^", 1)){
-      get_token(*line);
-      int pwr = factor(line);
-      int num = pow(subtotal, pwr);
-      return num;
-   }else{
-      return subtotal;
-   }
+  int subtotal = expp();
+   if (!strncmp(line, "^", 1)){
+     get_token(*line);
+     int pwr = factor(line);
+     int num = pow(subtotal, pwr);
+     return num;
+  }else{
+     return subtotal;
+  }
 }
-
+ 
 /**
 * <num> ::=  {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}+
 * @brief Confirms that the cursor is currently pointing to a number. If it
@@ -294,18 +279,18 @@ int factor(){
 * @return num. The int representation of the number in 'line'.
 */
 int num(){
-   int num = 0;
-   if(isdigit(*line) != FALSE){
-      char* number = get_token(*line);
-      num = atoi(number);
-   }else{
-      num = ERROR;
-      char* token = get_token(*line);
-      strcat(error_message, "===> ");
-      strcat(error_message, token);
-      strcat(error_message, "\nLexical Error: not a lexeme\n");
-   }
-   return num;
+  int num = 0;
+  if(isdigit(*line) != FALSE){
+     char* number = get_token(*line);
+     num = atoi(number);
+  }else{
+     num = ERROR;
+     char* token = get_token(*line);
+     strcat(error_message, "===> ");
+     strcat(error_message, token);
+     strcat(error_message, "\nLexical Error: not a lexeme\n");
+  }
+  return num;
 }
 
 

@@ -29,57 +29,6 @@ char *two_char_lexeme = "<>=!";
 char *skipable = "\n\t\r";
  
 /**
-* @brief The main function that creates a file object from the text file
-* specified in argument 1. The tokens in the text file are then identified and
-* categorized, with the output being sent to a file specifed in argument 2.
-* @param argc The number of arguments given.
-* @param argv An array containing the arguments inputed.
-* @return int. 0 if no errors occur.
-*/
-/**
-int main(int argc, char* argv[]) {
-  char  input_line[LINE];
-  FILE  *in_file = NULL;
-  out_file = NULL;
-  int line_count, Number of lines read            
-     start, is this the start of a new statement?
-     count; count of tokens
-  
- 
- in_file = fopen(argv[1], "r");//Directs the first argument to fopen
- 
- if(in_file == NULL){//If the input is null, print an error message and exit
-   fprintf(stderr, "ERROR: couldn't open %s for reading\n", argv[1]);
-   exit(1);
- }
- 
- if (argc != 3) {
-   printf("Usage: tokenizer inputFile outputFile\n");
-   exit(1);
- }
- 
- in_file = fopen(argv[1], "r");
- if (in_file == NULL) {
-   fprintf(stderr, "ERROR: could not open %s for reading\n", argv[1]);
-   exit(1);
- }
- 
- out_file = fopen(argv[2], "w");
- 
- if (out_file == NULL) {
-   fprintf(stderr, "ERROR: could not open %s for writing\n", argv[2]);
-   exit(1);
- }
-   parse_file(in_file, input_line);
- 
-  fclose(in_file);
-  fclose(out_file);
-  return 0;
- 
-}
-*/
- 
-/**
 * @brief Takes one line of input from the file, sends it to the build_token
 * function, which builds the individual tokens that are sent to the get_token
 * function.
@@ -126,8 +75,8 @@ char* get_token(char token){
  
  //If the character is a digit, it could be a multidigit number, so we check to
  //see if the next lexeme is also a number.
- if(isdigit(*line) && isdigit(*char_holder)){
-   while(isdigit(*line) == TRUE){
+ if(isdigit(*line) != FALSE && isdigit(*char_holder) != FALSE){
+   while(isdigit(*line) != FALSE){
      char_holder[char_counter] = *line;
      line++;
    }
@@ -135,13 +84,14 @@ char* get_token(char token){
  //If the character is a lexeme that COULD be a lexeme made up of 2 characters,
  //we check to see if adding the next character in the line produces that type
  //of lexeme.
- else if(strchr(two_char_lexeme, *char_holder) != NULL && strchr(two_char_lexeme, *line) != NULL){
+ else if(strchr(two_char_lexeme, *char_holder) != NULL && 
+      strchr(two_char_lexeme, *line) != NULL){
    char_holder[char_counter++] = *line;
    line++;
  }
  //If the next character makes up a word.
- else if(isalpha(*line) && isalpha(*char_holder)){
-   while(isalpha(*line) == TRUE){
+ else if(isalpha(*line) != FALSE && isalpha(*char_holder) != FALSE){
+   while(isalpha(*line) != FALSE){
      char_holder[char_counter++] = *line;
      line++;
    }

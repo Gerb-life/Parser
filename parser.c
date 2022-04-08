@@ -15,7 +15,7 @@
 #include "parser.h"
 //////TAKE THIS OUT LATER
 #include "tokenizer.c"
-/*
+/**
 * <bexpr> ::= <expr> ;
 * <expr> ::=  <term> <ttail>
 * <ttail> ::=  <add_sub_tok> <term> <ttail> | e

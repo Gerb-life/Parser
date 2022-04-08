@@ -12,7 +12,7 @@ How to run.
 
 In the command line the user will type:
     "gcc -c interpreter.c -g "
-    "gcc parser.c interpreter.o -g"
+    "gcc parser.c interpreter.o -g -lm"
     "a.out  unix_input.txt  output.txt"
 
 Where a.out is the name of the executable , unix_input.txt is the name of the input file , and output.txt is the name of the output file.

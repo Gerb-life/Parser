@@ -23,3 +23,4 @@ int num();
 #define BACKWARDS 0
 #define TRUE 1
 #define FALSE 0
+#define EQUAL 0

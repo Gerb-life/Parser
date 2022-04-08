@@ -7,11 +7,13 @@
 #include <stdlib.h>
 /**
 *interpreter.c - driver for parser.c and tokenizer.c
-*Authors Josiah Cherbony  and Gabriel Rodriguez
-*Date 4/7/2022
+* @author Josiah Cherbony  and Gabriel Rodriguez
+* @version 4/8/2022
 */
+
 extern char* line; // global pointer to external line
 extern char* error_message; // global pointer to external error message
+
 /**
  * @brief
  *  This is the driver for parser.c and tokenizer.c it handles printing to the
@@ -38,32 +40,35 @@ int main(int argc , char* argv[]){
   
    // while input line is not null
    while (fgets(input_line, 100, in_file) != NULL){
-          line = input_line; // single line of input
-          error_message = malloc(MALLSIZE); // create space on the stack for the error message
-          // checking to see if line has more than single \n character
-          if(strlen(line) != 1){
-          int num = expr(line); // result from expr funciton in parser.c
+        line = input_line; // single line of input
+        // create space on the stack for the error message
+        error_message = malloc(MALLSIZE); 
+        // checking to see if line has more than single \n character
+        if(strlen(line) != 1){
+            int num = expr(line); // result from expr funciton in parser.c
     
-          fprintf(out_file , "%s" , input_line); // printing expression  
-          // if num is equal to error print error message
-          if(num == ERROR){
-            
-              fprintf(out_file, "%s\n", error_message);// printing error message
-              error_message = ""; // resetting error message
-            
-          }
-          // if num is legal and syntax is legal print to output
-          else{
-              fprintf(out_file , "Syntax is ok\n"); // print if syntax is legal
-              fprintf(out_file , "Value is: %d\n\n" , num);// print value if value is legal
-           }
-          }
+            fprintf(out_file , "%s" , input_line); // printing expression  
+            // if num is equal to error print error message
+            if(num == ERROR){
+                // printing error message
+                fprintf(out_file, "%s\n", error_message);
+                error_message = ""; // resetting error message  
+            }
+            // if num is legal and syntax is legal print to output
+            else{
+                // print if syntax is legal
+                fprintf(out_file , "Syntax is ok\n"); 
+                // print value if value is legal
+                fprintf(out_file , "Value is: %d\n\n" , num);                                             
+            }
+        }
    }
    free(error_message);// free space on stack for error message
    return 0;
 }
-//gcc -c interpreter.c -g
-//gcc parser.c interpreter.o -g
+
+//gcc -c interpreter.c tokenizer.c -g
+//gcc parser.c interpreter.o tokenizer.o -g -lm 
 //./a.out unix_input.txt 101.txt
  
  

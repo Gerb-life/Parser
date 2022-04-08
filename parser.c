@@ -19,7 +19,7 @@
 * <expr> ::=  <term> <ttail>
 * <ttail> ::=  <add_sub_tok> <term> <ttail> | e
 * <term> ::=  <stmt> <stail>
-* <stail> ::=  <mult_div_tok> <stmt> <stail> | e
+* <stail> ::=  <mult_div_tok> <stmt> <stail> | e 
 * <stmt> ::=  <factor> <ftail>
 * <ftail> ::=  <compare_tok> <factor> <ftail> | e
 * <factor> ::=  <expp> ^ <factor> | <expp>

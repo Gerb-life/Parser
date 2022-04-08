@@ -48,7 +48,7 @@ int main(int argc , char* argv[]){
           // if num is equal to error print error message
           if(num == ERROR){
             
-              fprintf(out_file, "%s\n\n", error_message);// printing error message
+              fprintf(out_file, "%s\n", error_message);// printing error message
               error_message = ""; // resetting error message
             
           }
@@ -58,7 +58,6 @@ int main(int argc , char* argv[]){
               fprintf(out_file , "Value is: %d\n\n" , num);// print value if value is legal
            }
           }
-  
    }
    free(error_message);// free space on stack for error message
    return 0;

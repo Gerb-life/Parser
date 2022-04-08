@@ -2,8 +2,9 @@
 * parser.c - recursive descent parser for a simple expression language.
 * Most of the functions in this file model a non-terminal in the
 * grammar listed below
-* Author: William Kreahling and Mark Holliday
-* Date:   Modified 9-29-08 and 3-25-15 and 14 april 2020
+
+* Authors Josiah Cherbony and Gabriel Rodriguez
+* Date 4/7/2022
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -97,8 +98,12 @@ int ttail(int subtotal)
 /**
 * <ftail> ::=  <compare_tok> <factor> <ftail> | e
 * @brief
-*
-* @return int
+* This funciton will recursively call itself to check that valid compairison operation is done
+* if there is an error the term value which caused the error is returned else the result of 
+* comparison is returned. (True or False)
+* 
+ @param subtotal - the number that we have evaluated up till this point
+* @return either the term that caused an error or the result of the compairison operation
 */
 int ftail(int subtotal){
      int term_value;
@@ -127,7 +132,7 @@ int ftail(int subtotal){
         }
      }
      else if(!strncmp(line , "<=" , 1)){
-        //Gets the "<" token
+        //Gets the "<=" token
         get_token(*line);
         term_value = factor();
         if(term_value == ERROR){
@@ -169,8 +174,11 @@ int ftail(int subtotal){
 /**
 * <stail> ::=  <mult_div_tok> <stmt> <stail> | e
 * @brief
-*
-* @return int
+*This funciton will recursively call itself to check that valid multiplication or division is done
+* if there is an error the term value which caused the error is returned else the result of 
+* multiplication or division is returned. (True or False)
+*@param subtotal - the number we have evaluated up until this point
+* @return either the term that caused an error or the result of the multiplication or division
 */
 int stail(int subtotal){
 int term_value;
@@ -179,7 +187,7 @@ if (!strncmp(line, "/", 1))
   //Gets the "/" token
   get_token(*line);
   term_value = term();
-  // if term returned an error, give up otherwise call ttail
+  // if term returned an error, give up otherwise call stail
   if (term_value == ERROR)
      return term_value;
   else
@@ -190,7 +198,7 @@ else if(!strncmp(line, "*", 1))
   //Gets the "*" token
   get_token(*line);
   term_value = term(line);
-  // if term returned an error, give up otherwise call ttail
+  // if term returned an error, give up otherwise call stail
   if (term_value == ERROR)
      return term_value;
   else
@@ -204,8 +212,9 @@ else
 * <term> ::=  <stmt> <stail>
 *
 * @brief
-* @param token
-* @return int
+* Recieves the value from statement if that value is not a valid character
+* return error else return the value recieved from stail
+* @return value recieved from stail with subtotal as parameter
 */
 int term(){
 int subtotal = stmt();
